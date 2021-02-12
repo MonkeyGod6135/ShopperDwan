@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         shopperListView = (ListView) findViewById(R.id.shopperListView);
 
-        shoppingListsCursorAdaptor = new ShoppingLists(this, DBHandler.getShoppingLists,0);
+        shoppingListsCursorAdaptor = new ShoppingLists(this,
+                DBHandler.getShoppingLists(),0);
 
         shopperListView.setAdapter(shoppingListsCursorAdaptor);
 
