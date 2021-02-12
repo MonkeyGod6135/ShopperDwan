@@ -42,7 +42,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_LIST_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_LIST_NAME+ "text, " +
                 COLUMN_LIST_STORE+ "text, " +
-                COLUMN_LIST_DATE+ "text; ";
+                COLUMN_LIST_DATE+ "text); ";
 
         //execute the statement
         sqLiteDatabase.execSQL(query);

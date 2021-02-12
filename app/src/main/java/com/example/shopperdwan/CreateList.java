@@ -86,6 +86,7 @@ public class CreateList extends AppCompatActivity {
 
             }
         });
+        dbHandler = new DBHandler(this,null);
 
     }
     private void updateDueDate(){
