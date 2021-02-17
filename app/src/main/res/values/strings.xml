@@ -6,5 +6,7 @@
     <string name="date">Date</string>
     <string name="store">Store</string>
     <string name="name">Name</string>
+    <string name="title_activity_view_list">View_List</string>
+    <string name="add_item">Add Item</string>
 
 </resources>

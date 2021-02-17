@@ -11,6 +11,7 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Intent intent;
 
     //start dbhandler
-    DBHandler Dbhandler;
+    DBHandler DBhandler;
 
     CursorAdapter shoppingListsCursorAdaptor;
 
@@ -44,9 +45,24 @@ public class MainActivity extends AppCompatActivity {
         shopperListView = (ListView) findViewById(R.id.shopperListView);
 
         shoppingListsCursorAdaptor = new ShoppingLists(this,
-                DBHandler.getShoppingLists(),0);
+                dbHandler.getShoppingLists(),0);
 
         shopperListView.setAdapter(shoppingListsCursorAdaptor);
+
+        //set onItemClickListener on the listview
+        shopperListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //start Intent for the viewList Activity
+                intent = new Intent(MainActivity.this,ViewList.class);
+
+                //put the database id in the intent
+                intent.putExtra("_id",id);
+
+                //start the viewList
+                startActivity(intent);
+            }
+        });
 
     }
 
