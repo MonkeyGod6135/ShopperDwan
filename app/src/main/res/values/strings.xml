@@ -8,5 +8,7 @@
     <string name="name">Name</string>
     <string name="title_activity_view_list">View_List</string>
     <string name="add_item">Add Item</string>
+    <string name="title_activity_additem">Add item</string>
+
 
 </resources>
