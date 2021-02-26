@@ -8,31 +8,27 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-/**
- * The ShoppingLists class will map the data selected from the shopping lists
- * table in the cursor to the shopping_list resource
- */
-public class ShoppingLists extends CursorAdapter {
+public class ShoppingListItems extends CursorAdapter {
     /**
      *
-     * @param context reference to the activity that initializes the shoppinglist cursoradapter
+     * @param context reference to the activity that initializes the shoppinglistitem cursoradapter
      * @param c reference to the cursor that contains the data selected
      * @param flags determines special behavior of the cursoradapter
      */
-    public ShoppingLists(Context context, Cursor c, int flags) {
+    public ShoppingListItems(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
     /**
      *
-     * @param context reference to the activity that initializes the shoppinglist cursoradapter
+     * @param context reference to the activity that initializes the shoppinglistitem cursoradapter
      * @param cursor reference to the cursor that contains the data selected
      * @param parent reference
      * @return
      */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.li_shopping_list,parent,false);
+        return LayoutInflater.from(context).inflate(R.layout.li_item_list,parent,false);
     }
 
     /**
@@ -43,12 +39,14 @@ public class ShoppingLists extends CursorAdapter {
      */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        ((TextView) view.findViewById(R.id.nametextView)).
+        ((TextView) view.findViewById(R.id.nameTextView)).
                 setText(cursor.getString(cursor.getColumnIndex("name")));
-        ((TextView) view.findViewById(R.id.storeTextView)).
-                setText(cursor.getString(cursor.getColumnIndex("store")));
-        ((TextView) view.findViewById(R.id.dateTextView)).
-                setText(cursor.getString(cursor.getColumnIndex("date")));
+        ((TextView) view.findViewById(R.id.priceTextView)).
+                setText(cursor.getString(cursor.getColumnIndex("price")));
+        ((TextView) view.findViewById(R.id.quantityTextView)).
+                setText(cursor.getString(cursor.getColumnIndex("quantity")));
+        ((TextView) view.findViewById(R.id.quantityTextView)).
+                setText("Item Purchased " + cursor.getString(cursor.getColumnIndex("item_has")));
 
     }
 }

@@ -12,7 +12,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //intialize constants for db name and version
     public static final String DATABASE_NAME = "Shopper.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     //Intilizes constants for the shopperinglist table
     public static final String TABLE_SHOPPING_LIST = "shoppinglist";
@@ -20,6 +20,15 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_LIST_NAME = "name";
     public static final String COLUMN_LIST_STORE = "store";
     public static final String COLUMN_LIST_DATE = "date";
+
+    //Intilizes constants for the shopperinglistitem table
+    public static final String TABLE_SHOPPING_LIST_ITEM = "shoppinglist";
+    public static final String COLUMN_ITEM_ID = "_id";
+    public static final String COLUMN_ITEM_NAME = "name";
+    public static final String COLUMN_ITEM_PRICE = "price";
+    public static final String COLUMN_ITEM_QUANTITY = "quantity";
+    public static final String COLUMN_ITEM_HAS = "item_has";
+    public static final String COLUMN_ITEM_LIST_ID = "list_id";
 
 
     /**
@@ -38,14 +47,26 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //define create statement for shopping list and store it in a string
-        String query = "CREATE TABLE " + TABLE_SHOPPING_LIST + "( " +
-                COLUMN_LIST_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_LIST_NAME+ "text, " +
-                COLUMN_LIST_STORE+ "text, " +
-                COLUMN_LIST_DATE+ "text); ";
+        String query = "CREATE TABLE " + TABLE_SHOPPING_LIST + "(" +
+                COLUMN_LIST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_LIST_NAME+ " TEXT, " +
+                COLUMN_LIST_STORE+ " TEXT, " +
+                COLUMN_LIST_DATE+ " TEXT); ";
 
         //execute the statement
         sqLiteDatabase.execSQL(query);
+
+        //define create statement for shopping list and store it in a string
+        String query2 = "CREATE TABLE " + TABLE_SHOPPING_LIST_ITEM + "(" +
+                COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ITEM_NAME + " TEXT, " +
+                COLUMN_ITEM_PRICE + " DECIMAL(10,2), " +
+                COLUMN_ITEM_QUANTITY + " INTEGER, " +
+                COLUMN_ITEM_HAS + " TEXT, " +
+                COLUMN_ITEM_LIST_ID + " INTEGER);";
+
+        //execute the statement
+        sqLiteDatabase.execSQL(query2);
 
 
     }
@@ -64,6 +85,14 @@ public class DBHandler extends SQLiteOpenHelper {
 
         //execute statement
         sqLiteDatabase.execSQL(query);
+
+        onCreate(sqLiteDatabase);
+
+        //define drop statement and store it in a string
+        String query2 = "DROP TABLE IF EXISTS " + TABLE_SHOPPING_LIST_ITEM;
+
+        //execute statement
+        sqLiteDatabase.execSQL(query2);
 
         onCreate(sqLiteDatabase);
 
@@ -139,6 +168,46 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
 
         return name;
+
+    }
+    public void addItemToList(String name, Double price, Integer quantity, Integer listId){
+        //refernce to database
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        //put data into content values
+        values.put(COLUMN_ITEM_NAME, name);
+        values.put(COLUMN_ITEM_PRICE, price);
+        values.put(COLUMN_ITEM_QUANTITY, quantity);
+        values.put(COLUMN_ITEM_HAS, "false");
+        values.put(COLUMN_ITEM_LIST_ID,listId);
+
+        //insert data in Content values into shopping list item table
+        db.insert(TABLE_SHOPPING_LIST_ITEM, null, values);
+
+        db.close();
+
+
+
+    }
+
+    /**
+     * This method is called when the viewlist activity is launched
+     * @param listId shopping list id
+     * @return cursor that contains the shopping list id
+     */
+    public Cursor getShoppingListItems(Integer listId){
+
+        //reference to database
+        SQLiteDatabase db = getWritableDatabase();
+
+        //define statement and store it in string
+        String query ="SELECT * FROM " + TABLE_SHOPPING_LIST_ITEM +
+                " WHERE " + COLUMN_ITEM_LIST_ID + " = " + listId;
+
+        //execute statement
+        return db.rawQuery(query, null);
 
     }
 
