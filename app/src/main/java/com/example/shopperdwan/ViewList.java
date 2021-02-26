@@ -51,7 +51,7 @@ public class ViewList extends AppCompatActivity {
         //call getShoppingListNameMethod
         String shoppingListName = dbHandler.getShoppingListName((int) id);
 
-        //set the title of the viewlist activity
+        //set the title of the viewlist activity.
         this.setTitle(shoppingListName);
 
         //initialize the listview
