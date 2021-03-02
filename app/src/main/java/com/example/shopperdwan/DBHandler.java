@@ -211,4 +211,49 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * This method is called when an item on the viewlist activity is clicked
+     * @param itemId database id of the clicked item
+     * @return
+     */
+    public int isItemUnPurchase(Integer itemId){
+
+        //reference to database
+        SQLiteDatabase db = getWritableDatabase();
+
+        //define select statement and store it in a string
+        String query = "SELECT * FROM " + TABLE_SHOPPING_LIST_ITEM +
+                " WHERE " + COLUMN_ITEM_HAS + " = \"false\" " +
+                " AND " + COLUMN_ITEM_ID + " = " + itemId;
+
+        //execute select statement and store result in a cursor
+        Cursor cursor = db.rawQuery(query,null);
+
+        //return count
+        return(cursor.getCount());
+
+    }
+
+    /**
+     * This method is called when an item on the viewlist activity is clicked
+     * It sets items item_has to true
+     * @param itemId
+     */
+    public void updateItem(Integer itemId){
+
+        //reference to database
+        SQLiteDatabase db = getWritableDatabase();
+
+        //define update statement
+        String query = "UPDATE " + TABLE_SHOPPING_LIST_ITEM + " SET " +
+                COLUMN_ITEM_HAS + " = \"true\" " + " WHERE " +
+                COLUMN_ITEM_ID + " = " + itemId;
+
+        //execute statement
+        db.execSQL(query);
+
+        //close db connection
+        db.close();
+    }
+
 }

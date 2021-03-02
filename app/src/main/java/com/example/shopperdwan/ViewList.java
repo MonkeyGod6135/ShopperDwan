@@ -12,7 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ViewList extends AppCompatActivity {
 
@@ -62,6 +64,23 @@ public class ViewList extends AppCompatActivity {
 
         //set the shoppinglist items
         itemListView.setAdapter(shoppingListItemsAdapter);
+
+        //register an onclickitemlistener
+        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * This method is called when an item on the listview is clicked
+             * @param parent itemlistview
+             * @param view viewlist activity view
+             * @param position postiion of clicked item
+             * @param id database id of clicked item
+             */
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //call method that updates the clicked items item_has to true
+                // if it's false
+                updateItem(id);
+            }
+        });
 
     }
     /**
@@ -116,5 +135,25 @@ public class ViewList extends AppCompatActivity {
         //put the database id in the intent
         intent.putExtra("_id",id);
         startActivity(intent);
+    }
+
+    /**
+     * This method is called when an item is clicked on the ListView
+     * It updates the clicked item's item_has to true if it's false
+     * @param id database id of item
+     */
+    public void updateItem(long id){
+    //check if the clicked item is unpurchased
+        if(dbHandler.isItemUnPurchase((int) id) == 1){
+        //make clicked item purchased
+            dbHandler.updateItem((int) id);
+
+            //refresh Listview with updated data
+            shoppingListItemsAdapter.swapCursor(dbHandler.getShoppingListItems((int) this.id));
+            shoppingListItemsAdapter.notifyDataSetChanged();
+
+            //display Toast indicating item is purchased
+            Toast.makeText(this, "Item Purchased", Toast.LENGTH_SHORT).show();
+        }
     }
 }
