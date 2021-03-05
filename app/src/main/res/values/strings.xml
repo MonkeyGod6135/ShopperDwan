@@ -18,5 +18,9 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    <string name="title_activity_view_item">View Item</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="action_add_item">action_add_item</string>
+
 
 </resources>

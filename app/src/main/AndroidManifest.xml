@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShopperDwan">
         <activity
+            android:name=".ViewItem"
+            android:label="@string/title_activity_view_item"
+            android:theme="@style/Theme.ShopperDwan.NoActionBar"></activity>
+        <activity
             android:name=".Additem"
             android:label="@string/title_activity_additem"
-            android:theme="@style/Theme.ShopperDwan.NoActionBar"></activity>
+            android:theme="@style/Theme.ShopperDwan.NoActionBar" />
         <activity
             android:name=".ViewList"
             android:label="@string/title_activity_view_list"
