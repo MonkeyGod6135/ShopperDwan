@@ -43,7 +43,7 @@ public class ShoppingLists extends CursorAdapter {
      */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        ((TextView) view.findViewById(R.id.nametextView)).
+        ((TextView) view.findViewById(R.id.nameTextView)).
                 setText(cursor.getString(cursor.getColumnIndex("name")));
         ((TextView) view.findViewById(R.id.storeTextView)).
                 setText(cursor.getString(cursor.getColumnIndex("store")));

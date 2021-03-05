@@ -22,7 +22,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_LIST_DATE = "date";
 
     //Intilizes constants for the shopperinglistitem table
-    public static final String TABLE_SHOPPING_LIST_ITEM = "shoppinglist";
+    public static final String TABLE_SHOPPING_LIST_ITEM = "shoppinglistitem";
     public static final String COLUMN_ITEM_ID = "_id";
     public static final String COLUMN_ITEM_NAME = "name";
     public static final String COLUMN_ITEM_PRICE = "price";
@@ -153,7 +153,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         //define select statement
         String query = "SELECT * FROM " + TABLE_SHOPPING_LIST +
-                "WHERE " + COLUMN_LIST_ID + " = " + id;
+                " WHERE " + COLUMN_LIST_ID + " = " + id;
 
         //execute select statemnet and store it in a cursor
         Cursor cursor = db.rawQuery(query,null);
