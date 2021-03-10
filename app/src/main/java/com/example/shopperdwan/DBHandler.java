@@ -255,5 +255,15 @@ public class DBHandler extends SQLiteOpenHelper {
         //close db connection
         db.close();
     }
+    public Cursor getSHoppingListItem(Integer itemId){
+
+        //reference to database
+        SQLiteDatabase db = getWritableDatabase();
+
+        //define select statement
+       String query = "SELECT * FROM " + TABLE_SHOPPING_LIST_ITEM +
+                " WHERE " + COLUMN_ITEM_ID + " = " + itemId;
+       return db.rawQuery(query, null);
+    }
 
 }

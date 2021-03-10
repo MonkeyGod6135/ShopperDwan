@@ -21,6 +21,7 @@ public class ViewList extends AppCompatActivity {
     //Declare a Bundle and long for data sent from main activity
     Bundle bundle;
     long id;
+    long listId;
 
     //declare DBHandler
     DBHandler dbHandler;
@@ -46,6 +47,7 @@ public class ViewList extends AppCompatActivity {
 
         //use Bundle to get id
         id = bundle.getLong("_id");
+        listId = bundle.getLong("_list_id");
 
         //start dbhandler
         dbHandler = new DBHandler(this,null);
@@ -59,7 +61,7 @@ public class ViewList extends AppCompatActivity {
         //initialize the listview
         itemListView = (ListView) findViewById(R.id.itemsListView);
 
-        //initalize the shoppingListItems
+        //initialize the shoppingListItems
         shoppingListItemsAdapter = new ShoppingListItems(this, dbHandler.getShoppingListItems((int)id),0);
 
         //set the shoppinglist items
@@ -79,6 +81,18 @@ public class ViewList extends AppCompatActivity {
                 //call method that updates the clicked items item_has to true
                 // if it's false
                 updateItem(id);
+
+                //start intent for viewitem activity
+                intent = new Intent(ViewList.this, ViewItem.class);
+
+                //put the database id in the intent
+                intent.putExtra("_id",id);
+
+                //put the database id in the intent
+                intent.putExtra("_list_id", ViewList.this.id);
+
+                //start the viewList
+                startActivity(intent);
             }
         });
 
@@ -115,7 +129,7 @@ public class ViewList extends AppCompatActivity {
             case R.id.action_add_item :
                 intent = new Intent(this, Additem.class);
                 //put the database id in the intent
-                intent.putExtra("_id",id);
+                intent.putExtra("_id",listId);
                 startActivity(intent);
                 return true;
             default:
