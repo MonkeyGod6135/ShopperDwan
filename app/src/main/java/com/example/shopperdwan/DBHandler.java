@@ -266,4 +266,83 @@ public class DBHandler extends SQLiteOpenHelper {
        return db.rawQuery(query, null);
     }
 
+    /**
+     *  This method gets called when the delete button in the action bar of view item activity is clicked
+     * @param itemId
+     */
+    public void deleteShoppingListItem(Integer itemId){
+        //reference to database
+        SQLiteDatabase db = getWritableDatabase();
+
+        //define in string
+        String query = "DELETE FROM " + TABLE_SHOPPING_LIST_ITEM +
+                "WHERE " + COLUMN_ITEM_ID + " = " + itemId;
+
+        db.execSQL(query);
+
+        db.close();
+
+    }
+
+    /**
+     * This method is called when the delete button in the action bar is clicked
+     * @param listId
+     */
+    public void deleteShoppingList(Integer listId){
+
+        //reference to database
+        SQLiteDatabase db = getWritableDatabase();
+
+        //define in string
+        String query1 = "DELETE FROM " + TABLE_SHOPPING_LIST_ITEM +
+                "WHERE " + COLUMN_ITEM_LIST_ID + " = " + listId;
+
+        //execute
+        db.execSQL(query1);
+
+        //Define in string
+        String query2 = "DELETE FROM " + TABLE_SHOPPING_LIST +
+                "WHERE " + COLUMN_LIST_ID + " = " + listId;
+
+        //execute
+        db.execSQL(query2);
+
+        db.close();
+
+    }
+
+    public String getShoppingListTotalCost(int listId){
+        //reference to database
+        SQLiteDatabase db = getWritableDatabase();
+
+        //declare and start the String returned  by the method
+        String cost = "";
+
+        //declare a Double that will be used to compute the totoal cost
+        Double totalCost= 0.0;
+
+        //define select statement and store it
+        String query = "SELECT * FROM " + TABLE_SHOPPING_LIST_ITEM +
+                "WHERE " + COLUMN_ITEM_LIST_ID + " = " + listId;
+
+        //execute and store in cursor
+        Cursor c = db.rawQuery(query,null);
+
+        //loop through the rows in cursor
+        while(c.moveToNext()){
+            //add the cost of the current row into total cost
+            totalCost +=(c.getDouble(c.getColumnIndex("price")) *
+                    (c.getInt(c.getColumnIndex("quantity"))));
+        }
+
+        //convert into string
+        cost = String.valueOf(totalCost);
+
+        db.close();
+
+
+        //return string
+        return cost;
+    }
+
 }

@@ -3,8 +3,7 @@ package com.example.shopperdwan;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -96,6 +95,9 @@ public class ViewList extends AppCompatActivity {
             }
         });
 
+        //set the subtitle to the total cost of the shoppinglist 
+        toolbar.setSubtitle("Total Cost: $" + dbHandler.getShoppingListTotalCost((int)id));
+
     }
     /**
      * This method further intializes the action bar activity
@@ -169,5 +171,10 @@ public class ViewList extends AppCompatActivity {
             //display Toast indicating item is purchased
             Toast.makeText(this, "Item Purchased", Toast.LENGTH_SHORT).show();
         }
+    }
+    public void deleteList(MenuItem menuItem){
+        dbHandler.deleteShoppingList((int) id);
+
+        Toast.makeText(this,"List Deleted!", Toast.LENGTH_LONG).show();
     }
 }
