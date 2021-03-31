@@ -1,5 +1,7 @@
 package com.example.shopperdwan;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,6 +9,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.
+import java.util.List;
+import static com.example.shopperdwan.App.CHANNEL_SHOPPER_ID;
 
 public class ViewList extends AppCompatActivity {
 
@@ -33,8 +38,14 @@ public class ViewList extends AppCompatActivity {
     //declare a shopping list cursor adaptor
     ShoppingListItems shoppingListItemsAdapter;
 
+
+    String shoppingListName;
+
     //declare a listview
     ListView itemListView;
+
+    //declare Notification manager used to show (display) the notification
+    NotificationManagerCompat notificationManagerCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +65,7 @@ public class ViewList extends AppCompatActivity {
         dbHandler = new DBHandler(this,null);
 
         //call getShoppingListNameMethod
-        String shoppingListName = dbHandler.getShoppingListName((int) id);
+        shoppingListName = dbHandler.getShoppingListName((int) id);
 
         //set the title of the viewlist activity.
         this.setTitle(shoppingListName);
@@ -99,6 +110,9 @@ public class ViewList extends AppCompatActivity {
 
         //set the subtitle to the total cost of the shoppinglist 
         toolbar.setSubtitle("Total Cost: $" + dbHandler.getShoppingListTotalCost((int)id));
+
+        //intialize the notification manager
+        notificationManagerCompat = NotificationManagerCompat.from(this);
 
     }
     /**
@@ -172,6 +186,18 @@ public class ViewList extends AppCompatActivity {
 
             //display Toast indicating item is purchased
             Toast.makeText(this, "Item Purchased", Toast.LENGTH_SHORT).show();
+        }
+        //if all shopping list items have been purchased
+        if(dbHandler.getUnpurchasedItems((int) this.id)==0){
+            //initilize Notification
+            Notification notification = new NotificationCompat.Builder(this,
+                    CHANNEL_SHOPPER_ID)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Shopper")
+                    .setContentText(shoppingListName + "completed!").build();
+
+            //show Notifation
+            notificationManagerCompat.notify(1, notification);
         }
     }
     public void deleteList(MenuItem menuItem){

@@ -357,7 +357,7 @@ public class DBHandler extends SQLiteOpenHelper {
         //define select statement
         String query = "SELECT * FROM " + TABLE_SHOPPING_LIST_ITEM +
                 " WHERE " + COLUMN_ITEM_HAS + " = \"false\" " +
-                " AND " + COLUMN_ITEM_LIST_ID = " = " + listId;
+                " AND " + COLUMN_ITEM_LIST_ID + " = " + listId;
 
         //execute select statement
         Cursor cursor = db.rawQuery(query, null);
